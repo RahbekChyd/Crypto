@@ -1,18 +1,36 @@
 
 public class PackageTuple {
-	    private final int v;
-	    private final int zB;
+	    private int u;
+	    private int v;
+	    private int w;
 
-	    public PackageTuple(int v, int zB) {
+	    public PackageTuple(int u, int v, int w) {
+	        this.u = u;
 	        this.v = v;
-	        this.zB = zB;
+	        this.w = w;
 	    }
 
 	    public int getV() {
 	        return v;
 	    }
 
-	    public int getzB() {
-	        return zB;
+	    public int getW() {
+	        return w;
+	    }
+	    
+	    public int getU() {
+	        return u;
+	    }
+	    
+	    public void setV(int x) {
+	        v = x;
+	    }
+
+	    public void setW(int x) {
+	        w = x;
+	    }
+	    
+	    public void setU(int x) {
+	        u = x;
 	    }
 }
