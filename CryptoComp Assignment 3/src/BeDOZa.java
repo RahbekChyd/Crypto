@@ -34,6 +34,8 @@ public class BeDOZa {
 			
 			aTripleShare[i] = new PackageTuple(uR, vR, wR);
 			bTripleShare[i] = new PackageTuple(triple[i].getU() ^ uR, triple[i].getV() ^ vR, triple[i].getW() ^ wR);
+			//aTripleShare[i] = new PackageTuple(0, 0, 0);
+			//bTripleShare[i] = new PackageTuple(0, 0, 0);
 		}
 				
 		Alice alice = new Alice(x, aTripleShare);
@@ -62,6 +64,6 @@ public class BeDOZa {
 		bob.computeSixthLayer();
 		alice.computeSixthLayer();
 		
-		System.out.println("Input arguments (x, y):  (" + arg1 + ", " + arg2 + ") \n outputs result: " + (alice.getResult()));
+		System.out.println("Input arguments (x, y):  (" + arg1 + ", " + arg2 + ") \n outputs result: " + (alice.getResult() ^ bob.getResult()));
 	}
 }
