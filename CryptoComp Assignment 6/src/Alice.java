@@ -5,8 +5,7 @@ import java.util.ArrayList;
 public class Alice {
 	
 	private BigInteger sk;
-	private int n = 128;
-	private ArrayList<BigInteger> pKeys = new ArrayList<BigInteger>();
+	private int n = 10;
 	private ArrayList<BigInteger> cipherTexts = new ArrayList<BigInteger>();
 	private ArrayList<BigInteger> q = new ArrayList<BigInteger>();
 	private ArrayList<BigInteger> r = new ArrayList<BigInteger>();
@@ -25,42 +24,24 @@ public class Alice {
 	
 	private void generateLists() {
 		for (int i = 0; i < n; i++) {
-			q.add(new BigInteger(13^6, rand));
+			q.add(new BigInteger(500, rand));
 			r.add(new BigInteger(5, rand));
-			pKeys.add(sk.multiply(q.get(i).add(r.get(i).multiply(new BigInteger("2")))));
+			Encryption.setPkeys(sk, q.get(i), r.get(i));
 		}
 	}
 	
 	private BigInteger generateSk() {
-		BigInteger tempSk = new BigInteger(128, rand);
-		while (tempSk.mod(new BigInteger("2")) != new BigInteger("1")) {
-			tempSk = new BigInteger(128, rand);
+		BigInteger tempSk = new BigInteger(36, rand);
+		while (tempSk.mod(new BigInteger("2")).compareTo(new BigInteger("1")) != 0) {
+			tempSk = new BigInteger(36, rand);
 		}
-		return tempSk;
+		return new BigInteger("8354912947");
 	}
 	
-	public AliceMessage choose(int[] x) {
+	public ArrayList<BigInteger> choose(int[] x) {
 		for (int i = 0; i < 3; i++) {
-			cipherTexts.add(encrypt(x[i]));
+			cipherTexts.add(Encryption.encrypt(x[i]));
 		}
-		return new AliceMessage(pKeys, cipherTexts);
-	}
-	
-	private BigInteger encrypt(int m) {
-		BigInteger c;
-		ArrayList<Integer> s = new ArrayList<Integer>();
-		for (int i = 0; i < 80; i++) {
-			int temp = rand.nextInt(128);
-			if (s.contains(temp) != false) {
-				s.add(temp);
-			}
-		}
-		BigInteger sum = new BigInteger("0");
-		for (int i = 0; i < s.size(); i++) {
-			sum = sum.add(pKeys.get(s.get(i)));
-		}
-		c = sum;
-		if (m == 1) c = sum.add(new BigInteger("1"));
-		return c;
+		return cipherTexts;
 	}
 }

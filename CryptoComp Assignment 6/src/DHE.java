@@ -1,4 +1,5 @@
 import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 
 public class DHE {
@@ -17,12 +18,8 @@ public class DHE {
 			}
 		}
 		
-		//Converting the binary input to integer
-		int aliceInput = Integer.parseInt(x, 2);
-		int bobInput = Integer.parseInt(y, 2);
-		
 		//Creating arraylist for publickeys and ciphertexts generated (m1, m2)		
-		AliceMessage m1;
+		ArrayList<BigInteger> m1 = new ArrayList<BigInteger>();
 		BigInteger m2;
 		
 		Alice alice = new Alice();
@@ -30,7 +27,7 @@ public class DHE {
 		
 		int z;
 		ArrayList<BigInteger> overviewResult;
-		
+				
 		m1 = alice.choose(xBinary);
 		m2 = bob.transfer(yBinary, m1);
 		z = alice.retrieve(m2);

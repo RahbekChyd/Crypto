@@ -2,21 +2,29 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class Bob {
-	ArrayList<Ciphertext> cipherTexts = new ArrayList<Ciphertext>();
+	ArrayList<BigInteger> cipherTexts = new ArrayList<BigInteger>();
 	int[] y;
-	AliceMessage am;
 	
 	public Bob() {
 	}
 	
-	public BigInteger transfer(int[] y, AliceMessage am) {
-		return new BigInteger("2");
+	public BigInteger transfer(int[] y, ArrayList<BigInteger> aliceCipherTexts) {
+		for (int i = 0; i < 3; i++) {
+			cipherTexts.add(Encryption.encrypt(y[i]));
+		}	
+		return bloodFunction(aliceCipherTexts, cipherTexts);
 	}
 	
-	public int bloodFunction(int[] x, int i) {
-		int[] y = new int[3];
-		y = Utility.binaryInt(i);
-		boolean result = (((x[0] <= y[0]) && (x[1] <= y[1])) && (x[2] <= y[2]));
-		return (result) ? 1 : 2;
+	public BigInteger bloodFunction(ArrayList<BigInteger> aliceCipherTexts, ArrayList<BigInteger> bobCipherTexts) {
+		BigInteger[] level = new BigInteger[3];
+		for (int i = 0; i < 3; i++) {
+			level[i] = ((aliceCipherTexts.get(i).add(new BigInteger("1"))).multiply(bobCipherTexts.get(i))).add(new BigInteger("1"));
+	
+			System.out.println("LEVEL: " + i + "  :" + ((level[i].mod(new BigInteger("8354912947")).mod(new BigInteger("2")))));
+		}
+		BigInteger tempresult = (level[0].multiply(level[1]));
+		BigInteger result = tempresult.multiply(level[2]);
+		System.out.println("DONE :" + ((result).mod(new BigInteger("8354912947"))).mod(new BigInteger("2")));
+		return (level[0].multiply(level[1])).multiply(level[2]);
 	}
 }
