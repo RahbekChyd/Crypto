@@ -9,6 +9,7 @@ public class Bob {
 	}
 	
 	public BigInteger transfer(int[] y, ArrayList<BigInteger> aliceCipherTexts) {
+		//Generating bob's ciphertexts from his input and then return the result of evaluation
 		for (int i = 0; i < 3; i++) {
 			cipherTexts.add(Encryption.encrypt(y[i]));
 		}	
@@ -16,15 +17,13 @@ public class Bob {
 	}
 	
 	public BigInteger bloodFunction(ArrayList<BigInteger> aliceCipherTexts, ArrayList<BigInteger> bobCipherTexts) {
-		BigInteger[] level = new BigInteger[3];
+		BigInteger[] cipher = new BigInteger[3];
+		//Calculating not(and(not(aliceCipherTexts(i)), bobCipherTexts(i)))
 		for (int i = 0; i < 3; i++) {
-			level[i] = ((aliceCipherTexts.get(i).add(new BigInteger("1"))).multiply(bobCipherTexts.get(i))).add(new BigInteger("1"));
-	
-			System.out.println("LEVEL: " + i + "  :" + ((level[i].mod(new BigInteger("8354912947")).mod(new BigInteger("2")))));
-		}
-		BigInteger tempresult = (level[0].multiply(level[1]));
-		BigInteger result = tempresult.multiply(level[2]);
-		System.out.println("DONE :" + ((result).mod(new BigInteger("8354912947"))).mod(new BigInteger("2")));
-		return (level[0].multiply(level[1])).multiply(level[2]);
+			cipher[i] = ((aliceCipherTexts.get(i).add(new BigInteger("1"))).multiply(bobCipherTexts.get(i))).add(new BigInteger("1"));
+			}
+
+		//Calculating and(and(cipher(0), cipher(1)), cipher(2))
+		return (cipher[0].multiply(cipher[1])).multiply(cipher[2]);
 	}
 }
